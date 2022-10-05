@@ -3,19 +3,19 @@ import 'dart:convert';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
-import 'package:my_app/schema/issue_schema.dart';
+import 'package:my_app/schema/action_schema.dart';
 
-class IssueProvider with ChangeNotifier, DiagnosticableTreeMixin {
-  static var issuesRef = FirebaseFirestore.instance.collection("issues");
-  final List<Issue> _list = [];
+class ActionProvider with ChangeNotifier, DiagnosticableTreeMixin {
+  static var ActionsRef = FirebaseFirestore.instance.collection("actions");
+  final List<ActionSchema> _list = [];
 
-  List<Issue> get list => _list;
+  List<ActionSchema> get list => _list;
 
   Future<void> fetchList() async {
-    QuerySnapshot snaps = await issuesRef.get();
+    QuerySnapshot snaps = await ActionsRef.get();
     _list.clear();
     snaps.docs.forEach((doc) {
-      _list.add(Issue.fromJson(doc));
+      _list.add(ActionSchema.fromJson(doc));
     });
     print(_list.length);
     notifyListeners();
@@ -26,9 +26,9 @@ class IssueProvider with ChangeNotifier, DiagnosticableTreeMixin {
   Future<void> createOne(data) async {
     print("Fire $data");
     try {
-      var docRef = await issuesRef.add(data);
+      var docRef = await ActionsRef.add(data);
       var doc = await docRef.get();
-      _list.add(Issue.fromJson(doc));
+      _list.add(ActionSchema.fromJson(doc));
       notifyListeners();
     } on PlatformException {
       print("object");

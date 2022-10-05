@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:my_app/screens/actions_screen.dart';
+import 'package:my_app/screens/actions/actions_screen.dart';
 import 'package:my_app/screens/inspection_screen.dart';
-import 'package:my_app/screens/issues_screen.dart';
+import 'package:my_app/screens/issues/issues_screen.dart';
 import 'package:my_app/screens/main_screen.dart';
 import 'package:my_app/screens/more_screen.dart';
 
 class HomeScreen extends StatefulWidget {
+  static const String routeName = '/';
   const HomeScreen({super.key});
 
   @override

@@ -1,30 +1,40 @@
 import 'dart:convert';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
-class Action {
-  int id;
-  String? title;
-  String? description;
+class ActionSchema {
+  String? id;
+  String title;
+  String description;
+  String category;
+  String status;
+  DateTime created;
+  DateTime updated;
 
-  Action({required this.id, required this.title, required this.description});
+  ActionSchema({
+    this.id,
+    required this.title,
+    required this.description,
+    required this.category,
+    required this.status,
+    required this.created,
+    required this.updated,
+  });
 
-  factory Action.fromJson(Map<String, dynamic> map) {
-    return Action(
-      id: map["id"],
-      title: map["title"],
-      description: map["description"],
+  factory ActionSchema.fromJson(dynamic doc) {
+    return ActionSchema(
+      id: doc.id,
+      title: doc["title"],
+      description: doc["description"],
+      category: doc["category"],
+      status: doc["status"],
+      created: (doc['created'] as Timestamp).toDate(),
+      updated: (doc['updated'] as Timestamp).toDate(),
     );
   }
 
-  Map<String, dynamic> toJson() {
-    return {
-      "id": id,
-      "title": title,
-      "description": description,
-    };
-  }
-
-  List<Action> toList(String jsonData) {
+  List<ActionSchema> toList(String jsonData) {
     final data = json.decode(jsonData);
-    return List<Action>.from(data.map((item) => Action.fromJson(item)));
+    return List<ActionSchema>.from(
+        data.map((item) => ActionSchema.fromJson(item)));
   }
 }

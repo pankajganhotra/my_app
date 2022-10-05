@@ -17,7 +17,6 @@ class _MoreScreenState extends State<MoreScreen> {
           style: TextStyle(fontSize: 35),
         ),
         backgroundColor: Colors.white,
-        toolbarHeight: 80,
         foregroundColor: Colors.black,
       ),
       body: Center(child: Text("More")),

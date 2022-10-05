@@ -1,26 +1,36 @@
 import 'dart:convert';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 class Issue {
-  int id;
+  String? id;
   String title;
   String description;
+  String category;
+  String status;
+  DateTime created;
+  DateTime updated;
 
-  Issue({required this.id, required this.title, required this.description});
+  Issue({
+    this.id,
+    required this.title,
+    required this.description,
+    required this.category,
+    required this.status,
+    required this.created,
+    required this.updated,
+  });
 
-  factory Issue.fromJson(Map<String, dynamic> map) {
+  factory Issue.fromJson(dynamic doc) {
     return Issue(
-      id: map["id"],
-      title: map["title"],
-      description: map["description"],
+      id: doc.id,
+      title: doc["title"],
+      description: doc["description"],
+      category: doc["category"],
+      status: doc["status"],
+      created: (doc['created'] as Timestamp).toDate(),
+      updated: (doc['updated'] as Timestamp).toDate(),
     );
-  }
-
-  Map<String, dynamic> toJson() {
-    return {
-      "id": id,
-      "title": title,
-      "description": description,
-    };
   }
 
   List<Issue> toList(String jsonData) {

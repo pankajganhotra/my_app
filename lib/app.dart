@@ -1,7 +1,11 @@
-
 import 'package:flutter/material.dart';
+import 'package:my_app/screens/issues/create_issue_screen.dart';
 import 'package:my_app/screens/home_screen.dart';
+class ScreenArguments {
+  final String category;
 
+  ScreenArguments({required this.category});
+}
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
@@ -9,6 +13,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
       theme: ThemeData(
         // This is the theme of your application.
@@ -20,9 +25,21 @@ class MyApp extends StatelessWidget {
         // or simply save your changes to "hot reload" in a Flutter IDE).
         // Notice that the counter didn't reset back to zero; the application
         // is not restarted.
-        primarySwatch: Colors.blue,
+          primarySwatch: Colors.blue,
+          secondaryHeaderColor: Colors.deepPurple[50],
+          primaryColor: Colors.deepPurple[700],
+          appBarTheme: AppBarTheme(backgroundColor: Colors.white),
+          backgroundColor: Colors.blue[50],
+          textTheme: TextTheme()
       ),
-      home:  const HomeScreen()
+      // home: const HomeScreen(),
+      initialRoute: "/",
+      routes: {
+        HomeScreen.routeName: (context) => const HomeScreen(),
+        CreateIssueScreen.routeName: (context) {
+          return const CreateIssueScreen(category: "category");
+        },
+      },
     );
   }
 }

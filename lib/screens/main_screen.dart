@@ -17,10 +17,11 @@ class _MainScreenState extends State<MainScreen> {
           style: TextStyle(fontSize: 35),
         ),
         backgroundColor: Colors.white,
-        toolbarHeight: 80,
         foregroundColor: Colors.black,
       ),
+      
       body: Center(child: Text("Main")),
+    
     );
   }
 }

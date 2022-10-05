@@ -17,7 +17,6 @@ class _InspectionScreenState extends State<InspectionScreen> {
           style: TextStyle(fontSize: 35),
         ),
         backgroundColor: Colors.white,
-        toolbarHeight: 80,
         foregroundColor: Colors.black,
       ),
       body: Center(child: Text("Inspection")),
