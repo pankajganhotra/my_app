@@ -7,6 +7,8 @@ class ActionSchema {
   String description;
   String category;
   String status;
+  String assignedTo;
+  DateTime dueDate;
   DateTime created;
   DateTime updated;
 
@@ -16,6 +18,8 @@ class ActionSchema {
     required this.description,
     required this.category,
     required this.status,
+    required this.assignedTo,
+    required this.dueDate,
     required this.created,
     required this.updated,
   });
@@ -27,6 +31,8 @@ class ActionSchema {
       description: doc["description"],
       category: doc["category"],
       status: doc["status"],
+      assignedTo: doc["assignedTo"],
+      dueDate: (doc['dueDate'] as Timestamp).toDate(),
       created: (doc['created'] as Timestamp).toDate(),
       updated: (doc['updated'] as Timestamp).toDate(),
     );

@@ -1,5 +1,10 @@
+import 'dart:io';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:my_app/providers/issue_provider.dart';
 import 'package:provider/provider.dart';
 
@@ -13,13 +18,47 @@ class CreateIssueScreen extends StatefulWidget {
 }
 
 class _CreateIssueScreenState extends State<CreateIssueScreen> {
+  List<XFile?> _media = [];
+  FirebaseStorage _storage = FirebaseStorage.instance;
   final _formKey = GlobalKey<FormState>();
   final TextEditingController _titleController = TextEditingController();
   final TextEditingController _descController = TextEditingController();
   final TextEditingController _siteController = TextEditingController();
+  final ImagePicker _picker = ImagePicker();
+
+  void openGallery(String type) async {
+    if (type == 'image') {
+      final img = await _picker.pickMultiImage();
+      setState(() {
+        _media = img ?? [];
+      });
+    } else {
+      final img = await _picker.pickVideo(source: ImageSource.gallery);
+      setState(() {
+        _media.add(img);
+      });
+    }
+  }
 
   void onSubmit() async {
     try {
+      print(_media);
+      // for (var file in _media) {
+      //   if (file != null) {
+      //     Reference ref = FirebaseStorage.instance
+      //         .ref()
+      //         .child('flutter-tests')
+      //         .child('/some-image.jpg');
+      //     final metadata = SettableMetadata(
+      //       contentType: 'image/jpeg',
+      //       customMetadata: {'picked-file-path': file.path},
+      //     );
+
+      //     UploadTask uploadTask =
+      //         ref.putData(File(file.path).readAsBytesSync(), metadata);
+      //     debugPrint(uploadTask.toString());
+      //   }
+      // }
       // Validate returns true if the form is valid, or false otherwise.
       if (_formKey.currentState!.validate()) {
         ScaffoldMessenger.of(context).showSnackBar(
@@ -154,26 +193,59 @@ class _CreateIssueScreenState extends State<CreateIssueScreen> {
               Expanded(
                 child: Align(
                   alignment: Alignment.bottomCenter,
-                  child: Row(
-                    children: const [
-                      Icon(Icons.camera_alt_rounded),
-                      SizedBox(
-                        width: 5,
-                      ),
-                      Text(
-                        "Add Photo",
-                        style: TextStyle(fontWeight: FontWeight.bold),
-                      ),
-                      SizedBox(
-                        width: 15,
-                      ),
-                      Icon(Icons.videocam_rounded),
-                      SizedBox(
-                        width: 5,
-                      ),
-                      Text(
-                        "Add Video",
-                        style: TextStyle(fontWeight: FontWeight.bold),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      _media.isNotEmpty
+                          ? ListView.builder(
+                              scrollDirection: Axis.horizontal,
+                              shrinkWrap: true,
+                              itemCount: _media.length,
+                              itemBuilder: (context, index) {
+                                return Container(
+                                    decoration: BoxDecoration(
+                                        border:
+                                            Border.all(color: Colors.black)),
+                                    child: Image.file(
+                                      File(_media[0]!.path),
+                                      height: 100,
+                                      width: 100,
+                                    ));
+                              },
+                            )
+                          : Text(_media.length.toString()),
+                      Row(
+                        children: [
+                          const Icon(Icons.camera_alt_rounded),
+                          const SizedBox(
+                            width: 5,
+                          ),
+                          TextButton(
+                            onPressed: () => openGallery("image"),
+                            child: const Text(
+                              "Add Photo",
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.black),
+                            ),
+                          ),
+                          const SizedBox(
+                            width: 15,
+                          ),
+                          const Icon(Icons.videocam_rounded),
+                          const SizedBox(
+                            width: 5,
+                          ),
+                          TextButton(
+                            onPressed: () => openGallery("video"),
+                            child: const Text(
+                              "Add Video",
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.black),
+                            ),
+                          ),
+                        ],
                       ),
                     ],
                   ),

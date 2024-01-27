@@ -31,13 +31,13 @@ class _HomeScreenState extends State<HomeScreen> {
     ),
     BottomNavigationBarItem(
       icon: Icon(
-        Icons.email,
+        Icons.padding_rounded,
       ),
       label: "Inspections",
     ),
     BottomNavigationBarItem(
       icon: Icon(
-        Icons.email,
+        Icons.warning_rounded,
       ),
       label: "Issues",
     ),

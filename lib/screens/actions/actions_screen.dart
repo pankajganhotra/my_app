@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:jiffy/jiffy.dart';
 import 'package:my_app/providers/action_provider.dart';
+import 'package:my_app/screens/actions/action_card.dart';
+import 'package:my_app/screens/actions/create_action_screen.dart';
 import 'package:provider/provider.dart';
 
 import '../../schema/action_schema.dart';
@@ -15,91 +17,38 @@ class ActionsScreen extends StatefulWidget {
 
 class _ActionsScreenState extends State<ActionsScreen> {
   void showSheet() {
-    // showModalBottomSheet(
-    // context: context, builder: (context) => ActionCategorySheet());
+    showModalBottomSheet(
+      anchorPoint: Offset(200, 200),
+      isScrollControlled: true,
+      context: context,
+      builder: (context) => CreateActionScreen(),
+    );
   }
 
-  // @override
-  // void initState() {
-  //   context.read<ActionProvider>().fetchList();
-  // }
+  @override
+  void initState() {
+    super.initState();
+    context.read<ActionProvider>().fetchList();
+  }
 
   Widget generateList(List<ActionSchema> list) {
     return Builder(builder: (context) {
-      if (list.length < 1) {
-        return Center(
+      if (list.isEmpty) {
+        return const Center(
           child: Text("No Actions"),
         );
       }
       return ListView.builder(
           itemCount: list.length,
           itemBuilder: (context, index) {
-            return Card(
-              child: Padding(
-                padding: const EdgeInsets.all(10.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      list[index].title,
-                      style:
-                          TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        Container(
-                          color: Colors.grey[300],
-                          // decoration: BoxDecoration(borderRadius:),
-                          padding: const EdgeInsets.fromLTRB(4, 2, 4, 2),
-                          child: Text(
-                            list[index].category,
-                            style: TextStyle(color: Colors.grey[800]),
-                          ),
-                        ),
-                        Icon(Icons.label_outline),
-                        const SizedBox(
-                          width: 5,
-                        ),
-                        Text("site")
-                      ],
-                    ),
-                    SizedBox(
-                      height: 10,
-                    ),
-                    Text("Reported By HJ"),
-                    Divider(),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text("Updated ${Jiffy(list[index].updated).fromNow()}"),
-                        Container(
-                          color: Colors.yellow[50],
-                          // decoration: BoxDecoration(borderRadius:),
-                          padding: const EdgeInsets.fromLTRB(4, 2, 4, 2),
-                          child: Padding(
-                            padding: const EdgeInsets.all(2.0),
-                            child: Text(
-                              list[index].status,
-                              style: TextStyle(color: Colors.grey[800]),
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
-              ),
-            );
+            return ActionCard(action: list[index]);
           });
     });
-    // }
-    // return const Center(child: Text("No Actions Created"));
   }
 
   @override
   Widget build(BuildContext context) {
-    // var list = context.watch<ActionProvider>().list;
+    var list = context.watch<ActionProvider>().list;
     return Scaffold(
       backgroundColor: Theme.of(context).backgroundColor,
       appBar: AppBar(
@@ -134,7 +83,7 @@ class _ActionsScreenState extends State<ActionsScreen> {
               child: Padding(
                 padding: EdgeInsets.all(15),
                 child: Column(children: [
-                  Expanded(child: generateList([])),
+                  Expanded(child: generateList(list)),
                 ]),
               ),
             ),

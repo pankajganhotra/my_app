@@ -1,19 +1,17 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:jiffy/jiffy.dart';
 import 'package:my_app/schema/issue_schema.dart';
 import 'package:my_app/screens/issues/issue_detail_screen.dart';
+import 'package:my_app/widgets/label.dart';
 
-class ListCardItem extends StatelessWidget {
+class IssueCard extends StatelessWidget {
   final Issue issue;
-  const ListCardItem({super.key, required this.issue});
+  const IssueCard({super.key, required this.issue});
 
   @override
   Widget build(BuildContext context) {
-
     return Card(
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
       child: InkWell(
         onTap: () => Navigator.of(context).push(
           MaterialPageRoute(
@@ -32,17 +30,21 @@ class ListCardItem extends StatelessWidget {
                   fontSize: 18,
                 ),
               ),
+              const SizedBox(
+                height: 10,
+              ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
-                  Container(
+                  Label(
                     color: Colors.grey[300],
-                    // decoration: BoxDecoration(borderRadius:),
-                    padding: const EdgeInsets.fromLTRB(4, 2, 4, 2),
                     child: Text(
                       issue.category,
                       style: TextStyle(color: Colors.grey[800]),
                     ),
+                  ),
+                  const SizedBox(
+                    width: 5,
                   ),
                   const Icon(Icons.label_outline),
                   const SizedBox(
@@ -60,10 +62,10 @@ class ListCardItem extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text("Updated ${Jiffy(issue.updated).fromNow()}"),
-                  Container(
+                  Label(
                     color: Colors.yellow[50],
                     // decoration: BoxDecoration(borderRadius:),
-                    padding: const EdgeInsets.fromLTRB(4, 2, 4, 2),
+                    // padding: const EdgeInsets.fromLTRB(4, 2, 4, 2),
                     child: Padding(
                       padding: const EdgeInsets.all(2.0),
                       child: Text(

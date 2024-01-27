@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
@@ -38,4 +36,11 @@ class IssueProvider with ChangeNotifier, DiagnosticableTreeMixin {
   }
 
   void updateOne() {}
+
+  // Future<StorageTaskSnapshot> uploadImage(Uint8List imageFile, int pos) {
+  //   return storageRef
+  //       .child("posts/${currentUser.uid}/$_postId/$pos.jpg")
+  //       .putData(imageFile)
+  //       .onComplete;
+  // }
 }

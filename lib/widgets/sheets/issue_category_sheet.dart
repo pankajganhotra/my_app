@@ -47,6 +47,17 @@ class IssueCategorySheet extends StatelessWidget {
                 //     arguments: {"category": list[index]});
               },
             ),
+          ),
+          const Divider(),
+          Align(
+            alignment: Alignment.center,
+            child: TextButton(
+              onPressed: () {},
+              child: Text(
+                "Customize Categories",
+                style: TextStyle(color: Theme.of(context).primaryColor),
+              ),
+            ),
           )
         ],
       ),

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:jiffy/jiffy.dart';
 import 'package:my_app/providers/issue_provider.dart';
-import 'package:my_app/widgets/list_card_item.dart';
+import 'package:my_app/screens/issues/issue_card.dart';
+import 'package:my_app/widgets/label.dart';
 import 'package:my_app/widgets/sheets/issue_category_sheet.dart';
 import 'package:provider/provider.dart';
 
@@ -36,7 +36,7 @@ class _IssuesScreenState extends State<IssuesScreen> {
       return ListView.builder(
           itemCount: list.length,
           itemBuilder: (context, index) {
-            return ListCardItem(issue: list[index]);
+            return IssueCard(issue: list[index]);
           });
     });
   }
@@ -65,12 +65,26 @@ class _IssuesScreenState extends State<IssuesScreen> {
               padding: EdgeInsets.all(8),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.start,
-                children: const [
-                  Icon(Icons.sort_sharp, color: Colors.deepPurple),
-                  SizedBox(
+                children: [
+                  const Icon(Icons.sort_sharp, color: Colors.deepPurple),
+                  const SizedBox(
                     width: 10,
                   ),
-                  Text("Last Updated"),
+                  Label(
+                    color: Theme.of(context).secondaryHeaderColor,
+                    child: Row(
+                      children: const [
+                        Text("Last Updated"),
+                        SizedBox(
+                          width: 8,
+                        ),
+                        Icon(
+                          Icons.arrow_downward_sharp,
+                          size: 16,
+                        )
+                      ],
+                    ),
+                  ),
                 ],
               ),
             ),
